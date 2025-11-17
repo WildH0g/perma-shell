@@ -45,13 +45,9 @@ setup_configs_and_dotfiles() {
         return
     fi
 
-    # Copy dotfiles (e.g., .bashrc, .vimrc)
-    find "$DOTFILES_DIR" -maxdepth 1 -type f -name ".*" -exec cp {} "$HOME/" \;
-    info "  - Dotfiles copied."
-
-    # Copy dot directories (e.g., .config, .gemini)
-    find "$DOTFILES_DIR" -maxdepth 1 -type d -name ".*" -exec cp -r {} "$HOME/" \;
-    info "  - Dot directories copied."
+    # Copy all dotfiles and dot directories recursively
+    rsync -av "$DOTFILES_DIR/" "$HOME/"
+    info "  - All dotfiles and configurations copied."
 }
 
 # 2. Install shell enhancements
