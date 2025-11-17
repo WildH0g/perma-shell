@@ -77,15 +77,6 @@ install_shell_enhancements() {
     else
         info "  - TPM already present. Skipping clone."
     fi
-
-    info "  - Sourcing .tmux.conf to install plugins..."
-    if tmux info &> /dev/null; then
-        tmux source-file "$HOME/.tmux.conf"
-        info "    - .tmux.conf sourced. Plugins should now be installed/updated."
-    else
-        warn "    - Not running inside a tmux session. Skipping plugin installation."
-        warn "    - Please start tmux and run 'tmux source ~/.tmux.conf' manually."
-    fi
 }
 
 # 3. Install resterm
@@ -267,6 +258,8 @@ main() {
     info "The newly created '~/.customize_environment' script will run on the next startup to install system packages."
     info "----------------------------------------------------------------"
 
+    source ~/.bashrc
+    bash ~/.customize_environment
     # Apply tmux changes to current session if possible
     if tmux info &> /dev/null; then
         info "Applying new tmux configuration to the running server..."
