@@ -64,20 +64,23 @@ install_shell_enhancements() {
     printf 'n\ny\ny\n' | bash "$HOME/.fancy-git/install.sh"
     info "  - fancy-git installed."
 
-    # Tmux Plugin Manager (TPM)
+    # Tmux Plugin Manager (TPM) & Plugins
     if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+        info "  - Cloning Tmux Plugin Manager (TPM)..."
+        mkdir -p $HOME/.tmux/plugins/tpm
         git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
-        info "  - Tmux Plugin Manager (TPM) installed."
+        info "  - TPM cloned."
     else
-        info "  - TPM already installed. Skipping."
+        info "  - TPM already present. Skipping clone."
     fi
 
-    info "  - Installing tmux plugins..."
-    if [ -x "$HOME/.tmux/plugins/tpm/bin/install_plugins" ]; then
-        tmux run-shell "$HOME/.tmux/plugins/tpm/bin/install_plugins"
-        info "    - Tmux plugins installed."
+    info "  - Sourcing .tmux.conf to install plugins..."
+    if tmux info &> /dev/null; then
+        tmux source-file "$HOME/.tmux.conf"
+        info "    - .tmux.conf sourced. Plugins should now be installed/updated."
     else
-        warn "    - TPM plugin installer not found. Skipping."
+        warn "    - Not running inside a tmux session. Skipping plugin installation."
+        warn "    - Please start tmux and run 'tmux source ~/.tmux.conf' manually."
     fi
 }
 
