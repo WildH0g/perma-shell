@@ -99,7 +99,18 @@ install_resterm() {
     fi
 }
 
-# 4. Install NVM and Node.js
+# 4. Install termdown
+install_termdown() {
+    info "Installing termdown with pip..."
+    if [ -x "$HOME/.local/bin/termdown" ]; then
+        info "  - termdown already installed. Skipping."
+    else
+        pip install --user termdown
+        info "  - termdown installed."
+    fi
+}
+
+# 5. Install NVM and Node.js
 setup_nvm_and_node() {
     info "Setting up NVM and Node.js..."
     export NVM_DIR="$HOME/.nvm"
@@ -245,6 +256,7 @@ main() {
     setup_configs_and_dotfiles
     install_shell_enhancements
     install_resterm
+    install_termdown
     setup_nvm_and_node
     install_persistent_binaries
     create_startup_script
