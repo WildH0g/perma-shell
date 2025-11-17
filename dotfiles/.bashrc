@@ -139,3 +139,10 @@ function y() {
   rm -f -- "$tmp"
 }
 
+
+. ~/.fancy-git/prompt.sh
+export PATH=$PATH:$HOME/.local/bin
+
+if [ -f "/google/devshell/bashrc.google" ]; then
+  source "/google/devshell/bashrc.google"
+fi
