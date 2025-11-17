@@ -52,6 +52,7 @@ setup_configs_and_dotfiles() {
     # Copy dot directories (e.g., .config, .gemini)
     find "$DOTFILES_DIR" -maxdepth 1 -type d -name ".*" -exec cp -r {} "$HOME/" \;
     info "  - Dot directories copied."
+}
 
 # 2. Install shell enhancements
 install_shell_enhancements() {
@@ -74,7 +75,7 @@ install_shell_enhancements() {
     else
         info "  - TPM already installed. Skipping."
     fi
-    
+
     info "  - Installing tmux plugins..."
     if [ -x "$HOME/.tmux/plugins/tpm/bin/install_plugins" ]; then
         tmux run-shell "$HOME/.tmux/plugins/tpm/bin/install_plugins"
@@ -118,6 +119,7 @@ setup_nvm_and_node() {
         nvm use node
         info "  - Latest Node.js installed and set as default."
     )
+}
 
 download_file() {
     local url="$1"
@@ -212,13 +214,14 @@ install_persistent_binaries() {
         local fastfetch_archive="$SCRIPT_DIR/bin/fastfetch-linux-amd64.tar.gz"
         if [ -f "$fastfetch_archive" ]; then
             tar -xzf "$fastfetch_archive" -C "/tmp/"
-            mv "/tmp/fastfetch-linux-amd64/fastfetch" "$BIN_DIR/"
+            mv "/tmp/fastfetch-linux-amd64/usr/bin/fastfetch" "$BIN_DIR/"
             rm -rf "/tmp/fastfetch-linux-amd64"
             info "    - Fastfetch installed."
         else
             warn "    - Fastfetch archive not found at $fastfetch_archive. Skipping Fastfetch installation."
         fi
     fi
+}
 
 # 6. Create the startup script
 create_startup_script() {
