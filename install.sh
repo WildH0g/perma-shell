@@ -230,7 +230,7 @@ create_startup_script() {
     SCRIPT_DIR="$(dirname "$0")"
 
     rm -f "$HOME/.customize_environment"
-    cp "$SCRIPT_DIR/scripts/customize_environment.sh" "$HOME/.customize_environment"
+    cp "$SCRIPT_DIR/scripts/.customize_environment" "$HOME/.customize_environment"
     chmod +x "$HOME/.customize_environment"
     info "  - Successfully created ~/.customize_environment for tty-clock."
 }
