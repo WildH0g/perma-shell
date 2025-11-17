@@ -1,0 +1,16 @@
+customCommands:
+  - key: '<c-v>'
+    context: 'commits'
+    command: '~/.config/lazygit/verify.sh $(gh repo view --json nameWithOwner --jq .nameWithOwner) {{ .SelectedLocalCommit.Sha }}; exit 1'
+    output: popup
+    outputTitle: 'Cryptographic Signature Verification'
+    description: 'GitHub commit verification'
+    loadingText: 'Verify commit signature on GitHub'
+    subprocess: false
+  - key: '<c-s>'
+    command: 'git verify-commit {{ .SelectedLocalCommit.Hash }}; exit 1'
+    context: 'commits'
+    description: 'Show commit signature'
+    loadingText: 'Fetching signature...'
+    output: popup
+    # subprocess: yes

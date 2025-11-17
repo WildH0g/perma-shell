@@ -1,0 +1,49 @@
+#!/bin/bash
+#
+# .customize_environment
+#
+# This script is executed as root by Google Cloud Shell on every startup.
+# It installs ephemeral system-level packages that do not persist.
+
+# The USER_HOME variable is injected by the parent script.
+# This is a fallback for safety.
+USER_HOME="${1:-$(getent passwd "${SUDO_USER:-$USER}" | cut -d: -f6)}"
+
+exec > "${USER_HOME}/customize_environment.log" 2>&1
+set -x # Enable verbose logging
+
+# Ensure the script runs non-interactively
+export DEBIAN_FRONTEND=noninteractive
+
+# --- Run all privileged commands with sudo ---
+
+# Update apt package lists
+sudo apt-get update
+
+# Install tty-clock if not already installed
+if ! dpkg -s tty-clock >/dev/null 2>&1; then
+    echo "Installing tty-clock..."
+    sudo apt-get install -y tty-clock
+else
+    echo "tty-clock already installed, skipping."
+fi
+
+# Install ripgrep if not already installed
+if ! dpkg -s ripgrep >/dev/null 2>&1; then
+    echo "Installing ripgrep..."
+    sudo apt-get install -y ripgrep
+else
+    echo "ripgrep already installed, skipping."
+fi
+
+# Install Fastfetch from the pre-downloaded .deb package
+if [ -f "${USER_HOME}/.local/share/debs/fastfetch.deb" ]; then
+    if ! command -v fastfetch >/dev/null 2>&1; then
+        echo "Installing Fastfetch..."
+        sudo dpkg -i "${USER_HOME}/.local/share/debs/fastfetch.deb"
+        # Fix dependencies that might have been missed
+        sudo apt-get install -f -y
+    else
+        echo "Fastfetch already installed, skipping."
+    fi
+fi
