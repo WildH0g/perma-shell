@@ -47,3 +47,5 @@ if [ -f "${USER_HOME}/.local/share/debs/fastfetch.deb" ]; then
         echo "Fastfetch already installed, skipping."
     fi
 fi
+
+source ~/.bashrc

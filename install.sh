@@ -228,18 +228,6 @@ install_persistent_binaries() {
     fi
 }
 
-# 6. Create the startup script
-create_startup_script() {
-    info "Creating the startup script for tty-clock..."
-    local SCRIPT_DIR
-    SCRIPT_DIR="$(dirname "$0")"
-
-    rm -f "$HOME/.customize_environment"
-    cp "$SCRIPT_DIR/scripts/.customize_environment" "$HOME/.customize_environment"
-    chmod +x "$HOME/.customize_environment"
-    info "  - Successfully created ~/.customize_environment for tty-clock."
-}
-
 # --- Main Execution ---
 main() {
     info "Starting persistent environment creation..."
